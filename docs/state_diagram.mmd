@@ -1,21 +1,26 @@
 stateDiagram-v2
+    state "대기 (IDLE)" as IDLE
+    state "달리기 (RUN)" as RUN
+    state "수면 (SLEEP)" as SLEEP
+    state "자동 무적 런 (AUTO_RUN)" as AUTO_RUN
+
     [*] --> IDLE
-    IDLE --> RUN : Left / Right key down
-    RUN --> IDLE : All direction keys released
-    IDLE --> SLEEP : Idle for 5 seconds
-    SLEEP --> IDLE : Space key down
-    SLEEP --> RUN : Left / Right key down
-    IDLE --> AUTO_RUN : A key down
-    AUTO_RUN --> IDLE : 5 seconds elapsed / restore size
-    AUTO_RUN --> RUN : Left / Right key down / restore size
+    IDLE --> RUN : 왼쪽 / 오른쪽 방향키 누름
+    RUN --> IDLE : 방향키를 모두 뗌
+    IDLE --> SLEEP : 대기 상태에서 5초 경과
+    SLEEP --> IDLE : 스페이스 키 누름
+    SLEEP --> RUN : 왼쪽 / 오른쪽 방향키 누름
+    IDLE --> AUTO_RUN : A 키 누름
+    AUTO_RUN --> IDLE : 5초 경과 / 원래 크기로 복귀
+    AUTO_RUN --> RUN : 방향키 누름 / 일반 속도와 크기로 복귀
 
     note right of RUN
-        One RUN state for both directions
-        200 px/s, 100 x 100
+        좌우 이동을 하나의 RUN 상태로 처리
+        초당 200픽셀, 크기 100 x 100
     end note
     note right of AUTO_RUN
-        Implemented by class AutoRun
-        400 px/s, 150 x 150
-        No input needed to keep moving
-        Reflect at left and right screen edges
+        AutoRun 상태 클래스로 구현
+        초당 400픽셀, 크기 150 x 150
+        키를 놓아도 자동으로 이동
+        화면의 좌우 끝에서 자동 반사
     end note

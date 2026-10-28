@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 $diagramRoot = Split-Path -Parent $PSScriptRoot
 $diagramOutput = Join-Path $diagramRoot 'docs/state_diagram.png'
@@ -7,10 +7,10 @@ $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
 $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
 $graphics.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::AntiAliasGridFit
 $graphics.Clear([System.Drawing.Color]::White)
-$fontTitle = New-Object System.Drawing.Font 'Segoe UI',30,([System.Drawing.FontStyle]::Bold)
-$fontNode = New-Object System.Drawing.Font 'Segoe UI',25,([System.Drawing.FontStyle]::Bold)
-$fontBody = New-Object System.Drawing.Font 'Segoe UI',18
-$fontLabel = New-Object System.Drawing.Font 'Segoe UI',18
+$fontTitle = New-Object System.Drawing.Font 'Malgun Gothic',30,([System.Drawing.FontStyle]::Bold)
+$fontNode = New-Object System.Drawing.Font 'Malgun Gothic',25,([System.Drawing.FontStyle]::Bold)
+$fontBody = New-Object System.Drawing.Font 'Malgun Gothic',18
+$fontLabel = New-Object System.Drawing.Font 'Malgun Gothic',18
 $textBrush = New-Object System.Drawing.SolidBrush ([System.Drawing.ColorTranslator]::FromHtml('#17243A'))
 $arrowPen = New-Object System.Drawing.Pen ([System.Drawing.ColorTranslator]::FromHtml('#51647A')),3
 $arrowPen.CustomEndCap = New-Object System.Drawing.Drawing2D.AdjustableArrowCap 6,7
@@ -46,8 +46,8 @@ function State([single]$X, [single]$Y, [single]$W, [single]$H, [string]$Title, [
 }
 
 try {
-    Label 'Drill #11 - AutoRun State Diagram' 800 44 $fontTitle
-    Label 'A dedicated AutoRun class; one RUN state for left and right' 800 96 $fontBody
+    Label '실습 #11 - 소년 자동 무적 런 상태 다이어그램' 800 44 $fontTitle
+    Label 'AutoRun 상태 클래스 추가 / 좌우 이동은 하나의 RUN 상태로 처리' 800 96 $fontBody
     Arrow 75 520 120 520
     $graphics.FillEllipse($textBrush, 43, 508, 24, 24)
     Arrow 420 485 1180 485
@@ -59,20 +59,20 @@ try {
     Arrow 735 800 405 590
     Arrow 950 875 1330 590
 
-    Label 'Left / Right key down' 800 457
-    Label 'All direction keys released' 800 589
-    Label 'A key down' 535 371
-    Label '5 seconds / restore size' 350 286
-    Label 'Arrow key / normal Run' 1275 331
-    Label 'Idle for 5 seconds' 325 755
-    Label 'Space key down' 650 663
-    Label 'Left / Right key down' 1280 755
+    Label '왼쪽 / 오른쪽 방향키 누름' 800 457
+    Label '방향키를 모두 뗌' 800 589
+    Label 'A 키 누름' 535 371
+    Label '5초 경과 / 원래 크기로 복귀' 350 286
+    Label '방향키 누름 / 일반 달리기로 전환' 1275 331
+    Label '대기 상태에서 5초 경과' 325 755
+    Label '스페이스 키 누름' 650 663
+    Label '왼쪽 / 오른쪽 방향키 누름' 1280 755
 
-    State 120 450 300 140 'IDLE' @('Idle animation', 'Normal size') '#EAF2FF'
-    State 1180 450 300 140 'RUN' @('200 px/s | 100 x 100', 'Move while key held') '#EAF7ED'
-    State 610 150 380 180 'AUTO_RUN' @('AutoRun class', '400 px/s | 150 x 150', 'Bounce at edges | 5 s') '#F1ECFF'
-    State 650 800 300 140 'SLEEP' @('Lie down', 'Space / arrow to wake') '#F0F2F5'
-    Label 'Screen: 800 x 600 | Character stays inside the screen in both Run modes' 800 1000 $fontBody
+    State 120 450 300 140 '대기 (IDLE)' @('대기 애니메이션', '기본 크기') '#EAF2FF'
+    State 1180 450 300 140 '달리기 (RUN)' @('초당 200픽셀 | 100 x 100', '방향키를 누를 때 이동') '#EAF7ED'
+    State 610 150 380 180 '자동 무적 런' @('AutoRun 상태 클래스', '초당 400픽셀 | 150 x 150', '양 끝에서 자동 반사 | 5초') '#F1ECFF'
+    State 650 800 300 140 '수면 (SLEEP)' @('누운 자세로 정지', '스페이스 / 방향키로 기상') '#F0F2F5'
+    Label '화면: 800 x 600 | 일반 달리기와 자동 무적 런 모두 캐릭터 전체가 화면 안에 머무름' 800 1000 $fontBody
     $bitmap.Save($diagramOutput, [System.Drawing.Imaging.ImageFormat]::Png)
     Write-Output $diagramOutput
 } finally {
