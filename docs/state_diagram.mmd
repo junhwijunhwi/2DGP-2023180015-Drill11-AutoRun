@@ -1,0 +1,21 @@
+stateDiagram-v2
+    [*] --> IDLE
+    IDLE --> RUN : Left / Right key down
+    RUN --> IDLE : All direction keys released
+    IDLE --> SLEEP : Idle for 5 seconds
+    SLEEP --> IDLE : Space key down
+    SLEEP --> RUN : Left / Right key down
+    IDLE --> AUTO_RUN : A key down
+    AUTO_RUN --> IDLE : 5 seconds elapsed / restore size
+    AUTO_RUN --> RUN : Left / Right key down / restore size
+
+    note right of RUN
+        One RUN state for both directions
+        200 px/s, 100 x 100
+    end note
+    note right of AUTO_RUN
+        Implemented by class AutoRun
+        400 px/s, 150 x 150
+        No input needed to keep moving
+        Reflect at left and right screen edges
+    end note
