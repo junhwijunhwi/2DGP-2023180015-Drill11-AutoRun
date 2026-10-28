@@ -1,0 +1,5 @@
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.mmd text eol=lf
+*.png -text -filter -diff -merge
