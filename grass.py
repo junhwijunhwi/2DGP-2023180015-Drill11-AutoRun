@@ -1,9 +1,5 @@
-from pathlib import Path
-
 from pico2d import load_image
-
-
-RESOURCE_DIR = Path(__file__).resolve().parent / 'assets'
+from settings import RESOURCE_DIR
 
 
 class Grass:

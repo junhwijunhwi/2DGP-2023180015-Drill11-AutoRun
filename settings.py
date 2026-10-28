@@ -1,0 +1,19 @@
+"""게임 화면과 상태별 동작 수치를 한곳에서 관리한다."""
+
+from pathlib import Path
+
+CANVAS_WIDTH = 800
+CANVAS_HEIGHT = 600
+RESOURCE_DIR = Path(__file__).resolve().parent / 'assets'
+
+SPRITE_SIZE = 100
+IDLE_FRAME_COUNT = 8
+IDLE_FPS = 8
+IDLE_TIMEOUT = 5.0
+RUN_FRAME_COUNT = 8
+RUN_FPS = 8
+RUN_SPEED = 200.0
+AUTO_RUN_SPEED = RUN_SPEED * 2
+AUTO_RUN_SCALE = 1.5
+AUTO_RUN_FPS = RUN_FPS * 2
+AUTO_RUN_DURATION = 5.0

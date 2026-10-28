@@ -1,5 +1,4 @@
 from math import pi
-from pathlib import Path
 
 from pico2d import (
     SDL_KEYDOWN, SDL_KEYUP, SDLK_LEFT, SDLK_RIGHT, SDLK_SPACE, SDLK_a,
@@ -7,19 +6,11 @@ from pico2d import (
 )
 from transitions import Machine
 
-
-RESOURCE_DIR = Path(__file__).resolve().parent / 'assets'
-IDLE_FRAME_COUNT = 8
-IDLE_FPS = 8
-IDLE_TIMEOUT = 5.0
-RUN_FRAME_COUNT = 8
-RUN_FPS = 8
-RUN_SPEED = 200.0
-SPRITE_SIZE = 100
-AUTO_RUN_SPEED = RUN_SPEED * 2
-AUTO_RUN_SCALE = 1.5
-AUTO_RUN_FPS = RUN_FPS * 2
-AUTO_RUN_DURATION = 5.0
+from settings import (
+    AUTO_RUN_DURATION, AUTO_RUN_FPS, AUTO_RUN_SCALE, AUTO_RUN_SPEED,
+    IDLE_FPS, IDLE_FRAME_COUNT, IDLE_TIMEOUT, RESOURCE_DIR,
+    RUN_FPS, RUN_FRAME_COUNT, RUN_SPEED, SPRITE_SIZE,
+)
 
 
 class AutoRun:

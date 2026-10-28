@@ -7,10 +7,11 @@ from pico2d import (
 
 from boy import Boy
 from grass import Grass
+from settings import CANVAS_HEIGHT, CANVAS_WIDTH
 
 
 def main():
-    open_canvas(800, 600)
+    open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     try:
         world = [Grass(), Boy()]
         boy = world[1]
