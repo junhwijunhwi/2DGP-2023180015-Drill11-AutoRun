@@ -210,7 +210,7 @@ class Boy:
         half_size = SPRITE_SIZE / 2
         self.x = max(half_size, min(get_canvas_width() - half_size, self.x))
 
-    def _restart_idle(self):
+    def _restart_idle(self, frame_time=None):
         self.frame = 0
         self.run_dir = 0
         self.pressed_directions.clear()
