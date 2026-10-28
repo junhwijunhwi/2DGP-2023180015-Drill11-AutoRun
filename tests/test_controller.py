@@ -80,6 +80,28 @@ class ControllerTests(unittest.TestCase):
         self.boy.update()
         self.assertEqual(self.boy.state, 'SLEEP')
 
+    def test_timeout_frame_includes_the_full_five_seconds_of_movement(self):
+        self.start_auto_run()
+        self.advance(5)
+        self.assertEqual(self.boy.state, 'IDLE')
+        self.assertAlmostEqual(self.boy.x, 350)
+        self.assertAlmostEqual(self.boy.auto_run.elapsed, 5)
+
+    def test_irregular_frame_lengths_preserve_total_auto_run_distance(self):
+        self.start_auto_run()
+        for frame_time in (0.11, 0.007, 0.9, 1.6, 2.9):
+            self.advance(frame_time)
+        self.assertEqual(self.boy.state, 'IDLE')
+        self.assertAlmostEqual(self.boy.x, 350)
+        self.assertAlmostEqual(self.boy.auto_run.elapsed, 5)
+
+    def test_very_late_frame_does_not_move_beyond_the_five_second_deadline(self):
+        self.start_auto_run()
+        self.advance(20)
+        self.assertEqual(self.boy.state, 'IDLE')
+        self.assertAlmostEqual(self.boy.x, 350)
+        self.assertAlmostEqual(self.boy.auto_run.elapsed, 5)
+
     def test_right_boundary_reflects_remaining_distance(self):
         self.start_auto_run()
         self.boy.x = 720

@@ -19,6 +19,7 @@ class AutoRun:
     def __init__(self, boy):
         self.boy = boy
         self.started_at = 0.0
+        self.elapsed = 0.0
 
     def enter(self):
         boy = self.boy
@@ -27,6 +28,7 @@ class AutoRun:
         boy.run_dir = boy.face_dir
         boy.pressed_directions.clear()
         self.started_at = get_time()
+        self.elapsed = 0.0
         boy.last_update_time = self.started_at
         half_size = SPRITE_SIZE * boy.scale / 2
         boy.x = max(half_size, min(get_canvas_width() - half_size, boy.x))
@@ -36,6 +38,10 @@ class AutoRun:
 
     def update(self, frame_time):
         boy = self.boy
+        # A late frame may cross the deadline; move only through the five
+        # seconds belonging to AutoRun, including the final partial frame.
+        frame_time = max(0.0, min(frame_time, AUTO_RUN_DURATION - self.elapsed))
+        self.elapsed += frame_time
         boy.frame = (boy.frame + AUTO_RUN_FPS * frame_time) % RUN_FRAME_COUNT
         half_size = SPRITE_SIZE * boy.scale / 2
         left, right = half_size, get_canvas_width() - half_size
@@ -123,7 +129,8 @@ class Boy:
         )
         self.machine.add_transition(
             trigger='tick', source='AUTO_RUN', dest='IDLE',
-            conditions='_auto_run_timed_out', after='_restart_idle',
+            conditions='_auto_run_timed_out', before=self.auto_run.update,
+            after='_restart_idle',
         )
         self.machine.add_transition(
             trigger='tick', source='AUTO_RUN', dest=None,
