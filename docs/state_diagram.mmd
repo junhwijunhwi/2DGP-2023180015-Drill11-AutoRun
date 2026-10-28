@@ -6,7 +6,7 @@ stateDiagram-v2
 
     [*] --> IDLE
     IDLE --> RUN : 왼쪽 / 오른쪽 방향키 누름
-    RUN --> IDLE : 방향키를 모두 뗌
+    RUN --> IDLE : 방향키 모두 뗌 또는 창 포커스 이탈
     IDLE --> SLEEP : 대기 상태에서 5초 경과
     SLEEP --> IDLE : 스페이스 키 누름
     SLEEP --> RUN : 왼쪽 / 오른쪽 방향키 누름

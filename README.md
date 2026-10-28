@@ -15,6 +15,8 @@ python main.py
 
 Windows에서 `python` 명령을 찾지 못하면 `py -3.13`을 사용하거나 VS Code에서 설치된 Python 인터프리터를 선택합니다. 실행 파일은 `main.py`입니다.
 
+VS Code에서는 **이 저장소 폴더 자체를 열고**, Python 인터프리터를 선택한 뒤 F5를 누르면 `실습 11: 자동 무적 런 실행` 설정으로 실행됩니다. `터미널 → 작업 실행`에서 동작 검증과 제출 파일 점검도 실행할 수 있습니다.
+
 ## 조작
 
 | 입력 | 동작 |
@@ -31,6 +33,8 @@ Windows에서 `python` 명령을 찾지 못하면 `py -3.13`을 사용하거나 
 - AutoRun은 진입 직전 바라보던 방향으로 출발하고, 확대된 소년 전체가 화면 안에 머물면서 좌우 끝에서 자동 반사됩니다.
 - 방향키로 취소하면 속도와 크기가 즉시 복구됩니다. 양쪽 키를 누르면 마지막으로 누른 방향이 우선합니다.
 - Idle에 돌아온 뒤 다시 5초가 지나면 Sleep으로 이동합니다. AutoRun 중 A/Space는 타이머를 재시작하지 않습니다.
+- 다른 창으로 전환하면 일반 Run의 입력을 해제합니다. AutoRun은 자동 이동을 유지하고 진입 후 5초가 되면 종료됩니다.
+- 프레임이 지연되더라도 AutoRun의 총 이동 시간은 5초로 제한되며, 종료 직전의 남은 이동량도 반영합니다.
 
 ## 상태 다이어그램
 
@@ -55,11 +59,14 @@ Windows에서 `python` 명령을 찾지 못하면 `py -3.13`을 사용하거나 
 ## 검증
 
 ```bash
+python tools/check_submission.py
 python -m unittest discover -s tests -v
 python tools/render_smoke.py
 ```
 
-첫 명령은 19개 동작 검증을 실행합니다. 두 번째 명령은 화면을 열지 않는 SDL 소프트웨어 렌더링으로 네 상태의 PNG를 재생성합니다. 테스트는 실제 `transitions` 상태 머신을 사용하며 그래픽과 시계만 대체합니다. 검증 내역은 [docs/VALIDATION.md](docs/VALIDATION.md)에 정리했습니다.
+제출 점검 도구는 필수 파일 20개, 파이썬 문법, PNG 형식과 크기를 확인합니다. 동작 검증은 상태 머신 26개와 게임 루프 6개로 **총 32개**입니다. 렌더링 검증은 화면을 열지 않는 SDL 소프트웨어 렌더러로 네 상태의 PNG를 재생성합니다. 검증 내역은 [docs/VALIDATION.md](docs/VALIDATION.md), 채점 항목별 확인 방법은 [docs/ACCEPTANCE.md](docs/ACCEPTANCE.md)에 정리했습니다.
+
+GitHub에 변경 사항을 올리면 [과제 자동 검증](https://github.com/junhwijunhwi/2DGP-2023180015-Drill11-AutoRun/actions)에서 같은 세 명령을 실행합니다.
 
 Windows에서는 상태도 PNG를 다음과 같이 다시 생성할 수 있습니다.
 
@@ -71,6 +78,7 @@ powershell -ExecutionPolicy Bypass -File tools/generate_state_diagram.ps1
 
 - `PRD.md`: 개발 기획, 요구사항, 인수 조건, 검증 계획.
 - `main.py`, `boy.py`, `grass.py`: 게임 실행 코드와 `AutoRun` 상태 클래스.
+- `settings.py`: 화면 크기, 상태별 속도·크기·시간, 이미지 경로.
 - `assets/animation_sheet.png`, `assets/grass.png`: 실행에 필요한 이미지. 기존 2DGP 수업 프로젝트 `Labs/LEC12_CharacterController`에서 가져왔습니다.
 - `requirements.txt`: 실행 의존성.
 - `tests/`, `tools/`, `docs/`: 검증 코드, 상태도·실행 이미지 및 문서.
