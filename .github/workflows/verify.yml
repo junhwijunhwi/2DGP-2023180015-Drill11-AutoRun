@@ -1,0 +1,37 @@
+name: 과제 자동 검증
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: 제출 파일과 동작 및 렌더링 검증
+    runs-on: windows-latest
+    timeout-minutes: 10
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - name: 저장소 내려받기
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Python 3.13 준비
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+          cache: pip
+      - name: 실행 의존성 설치
+        run: python -m pip install -r requirements.txt
+      - name: 필수 파일과 이미지 확인
+        run: python tools/check_submission.py
+      - name: 상태 전환과 게임 루프 검증
+        run: python -m unittest discover -s tests -v
+      - name: 실제 이미지 렌더링 확인
+        run: python tools/render_smoke.py
