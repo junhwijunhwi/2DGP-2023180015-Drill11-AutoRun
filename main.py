@@ -1,7 +1,7 @@
 """Run the standalone Drill #11 game with: python main.py."""
 
 from pico2d import (
-    SDL_KEYDOWN, SDL_QUIT, SDLK_ESCAPE,
+    SDL_GetKeyboardFocus, SDL_KEYDOWN, SDL_QUIT, SDLK_ESCAPE,
     clear_canvas, close_canvas, delay, get_events, open_canvas, update_canvas,
 )
 
@@ -26,6 +26,8 @@ def main():
                     boy.handle_event(event)
             if not running:
                 break
+            if not SDL_GetKeyboardFocus():
+                boy.release_controls()
             for obj in world:
                 obj.update()
             clear_canvas()

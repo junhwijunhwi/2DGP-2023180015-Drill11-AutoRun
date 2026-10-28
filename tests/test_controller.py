@@ -194,6 +194,35 @@ class ControllerTests(unittest.TestCase):
         self.boy.handle_event(SimpleNamespace(type=-1))
         self.assertEqual(self.boy.state, 'IDLE')
 
+    def test_lost_focus_stops_manual_run(self):
+        self.key(boy.SDLK_LEFT)
+        self.boy.release_controls()
+        self.assertEqual(self.boy.state, 'IDLE')
+        self.assertEqual(self.boy.pressed_directions, [])
+        self.assertEqual(self.boy.run_dir, 0)
+
+    def test_lost_focus_keeps_auto_run_active(self):
+        self.start_auto_run()
+        self.boy.release_controls()
+        self.advance(0.25)
+        self.assertEqual(self.boy.state, 'AUTO_RUN')
+        self.assertEqual(self.boy.x, 500)
+        self.advance(4.75)
+        self.assertEqual(self.boy.state, 'IDLE')
+
+    def test_lost_focus_releases_a_latch(self):
+        self.start_auto_run()
+        self.advance(5)
+        self.boy.release_controls()
+        self.key(boy.SDLK_a)
+        self.assertEqual(self.boy.state, 'AUTO_RUN')
+
+    def test_lost_focus_does_not_restart_idle_timeout(self):
+        self.advance(4)
+        self.boy.release_controls()
+        self.advance(1)
+        self.assertEqual(self.boy.state, 'SLEEP')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -179,6 +179,13 @@ class Boy:
         elif self.state == 'RUN':
             self.stop_running()
 
+    def release_controls(self):
+        """창 밖에서 키를 뗀 경우에도 입력이 눌린 채로 남지 않게 한다."""
+        self.a_pressed = False
+        self.pressed_directions.clear()
+        if self.state == 'RUN':
+            self.stop_running()
+
     def update(self):
         now = get_time()
         frame_time = now - self.last_update_time
