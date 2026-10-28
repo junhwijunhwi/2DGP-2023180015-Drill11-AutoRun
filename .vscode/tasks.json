@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "실습 11: 동작 검증",
+            "type": "process",
+            "command": "${command:python.interpreterPath}",
+            "args": ["-m", "unittest", "discover", "-s", "tests", "-v"],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": [],
+            "group": { "kind": "test", "isDefault": true }
+        },
+        {
+            "label": "실습 11: 제출 파일 점검",
+            "type": "process",
+            "command": "${command:python.interpreterPath}",
+            "args": ["tools/check_submission.py"],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": []
+        }
+    ]
+}
