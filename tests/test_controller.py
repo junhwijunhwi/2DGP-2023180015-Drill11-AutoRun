@@ -154,6 +154,15 @@ class ControllerTests(unittest.TestCase):
         self.key(boy.SDLK_a)
         self.assertEqual(self.boy.state, 'SLEEP')
 
+    def test_holding_a_cannot_restart_auto_run_after_timeout(self):
+        self.start_auto_run()
+        self.advance(5)
+        self.boy.handle_event(SimpleNamespace(type=boy.SDL_KEYDOWN, key=boy.SDLK_a))
+        self.assertEqual(self.boy.state, 'IDLE')
+        self.key(boy.SDLK_a, boy.SDL_KEYUP)
+        self.key(boy.SDLK_a)
+        self.assertEqual(self.boy.state, 'AUTO_RUN')
+
     def test_sleep_wakes_with_space_or_either_arrow(self):
         for key, expected in ((boy.SDLK_SPACE, 'IDLE'), (boy.SDLK_LEFT, 'RUN'), (boy.SDLK_RIGHT, 'RUN')):
             with self.subTest(key=key):

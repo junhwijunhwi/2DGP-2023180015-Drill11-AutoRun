@@ -74,6 +74,7 @@ class Boy:
         self.face_dir = 1
         self.run_dir = 0
         self.pressed_directions = []
+        self.a_pressed = False
         self.scale = 1.0
         self.image = load_image(str(RESOURCE_DIR / 'animation_sheet.png'))
         self.last_update_time = get_time()
@@ -149,8 +150,13 @@ class Boy:
             return
 
         if event.key == SDLK_a:
-            if (event.type == SDL_KEYDOWN and self.state == 'IDLE'
-                    and not getattr(event, 'repeat', 0)):
+            if event.type == SDL_KEYUP:
+                self.a_pressed = False
+                return
+            if self.a_pressed or getattr(event, 'repeat', 0):
+                return
+            self.a_pressed = True
+            if self.state == 'IDLE':
                 self.start_auto_run()
             return
 
